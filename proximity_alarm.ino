@@ -37,8 +37,6 @@ void tripleBip()
 
 void ledBlink()
 {
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(400);
   digitalWrite(LED_BUILTIN, LOW);
   delay(400);
   digitalWrite(LED_BUILTIN, HIGH);
@@ -48,27 +46,34 @@ void ledBlink()
   digitalWrite(LED_BUILTIN, HIGH);
   delay(400);
   digitalWrite(LED_BUILTIN, LOW);
+  delay(400);
+  digitalWrite(LED_BUILTIN, HIGH);
   delay(400);
 }
 
 void setup()
 {
+  Serial.begin(115200);
+  while(!Serial);
+
   pinMode(TRIGGER_PIN, OUTPUT);
   pinMode(ECHO_PIN, INPUT);
   pinMode(BUZZER_PIN, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
 
   ledBlink();
+  delay(200);
 
   distance = getDistance();
-
-  delay(500);
+  delay(200);
 }
 
 void loop()
 {
   float newDistance = getDistance();
-
+  Serial.print(distance);
+  Serial.print(" - ");
+  Serial.println(newDistance);
   if(distance - newDistance > error)
   { 
     tripleBip();
